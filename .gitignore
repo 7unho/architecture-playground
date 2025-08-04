@@ -1,24 +1,75 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+ssafy-web.log
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+**/application-secret.properties
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+application.yml
+**/target/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+
+### Java ###
 # Compiled class file
 *.class
+*.http
+*.package-lock.json
 
-# Log file
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+
+### React ###
+
+# Created by https://www.toptal.com/developers/gitignore/api/react
+# Edit at https://www.toptal.com/developers/gitignore?templates=react
+
+### react ###
+.DS_*
 *.log
+logs
+**/*.backup.*
+**/*.back.*
 
-# BlueJ files
-*.ctxt
+node_modules
+bower_components
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+*.sublime*
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+psd
+thumb
+sketch
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+.env
+package-lock.json
+# End of https://www.toptal.com/developers/gitignore/api/react
