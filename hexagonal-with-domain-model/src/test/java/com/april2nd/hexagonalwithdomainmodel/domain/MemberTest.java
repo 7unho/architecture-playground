@@ -36,7 +36,8 @@ class MemberTest {
     @Test
     @DisplayName("생성자 호출 시, 필드에 Null이 들어오면 exception이 발생한다.")
     void constructorNullCheck() {
-        assertThatThrownBy(() -> Member.create(new MemberCreateRequest(null, "april2nd", "secret"), passwordEncoder))
+        var createRequest = new MemberCreateRequest(null, "april2nd", "secret");
+        assertThatThrownBy(() -> Member.create(createRequest, passwordEncoder))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -113,5 +114,16 @@ class MemberTest {
 
         member.deactivate();
         assertThat(member.isActive()).isFalse();
+    }
+
+    @Test
+    void invalidEmail() {
+        var createRequest = new MemberCreateRequest(null, "april2nd", "secret");
+
+        assertThatThrownBy(() ->
+                Member.create(createRequest, passwordEncoder)
+        ).isInstanceOf(IllegalArgumentException.class);
+
+        Member.create(new MemberCreateRequest("test@test.com", "april2nd", "secret"), passwordEncoder);
     }
 }
