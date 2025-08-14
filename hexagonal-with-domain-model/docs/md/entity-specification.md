@@ -11,19 +11,29 @@ _Entity_
 - `email`: 이메일 - ID
 - `nickname`: 닉네임
 - `passwordHash`: 해싱된 비밀번호
-- `status`: 회원 상태
+- `status`: `MemberStatus` 회원 상태
 #### 행위
-- `constructor()` -> 회원 생성: email, nickname, passwordHash, status
+- `static create()` -> 회원 생성: email, nickname, password, passwordHash, passwordEncoder
 - `activate()` -> 가입을 완료한다
 - `deactivate()` ->  탈퇴한다
+- `verifyPassword()` -> 비밀번호를 검증한다
+- `changeNickname()` -> 닉네임을 변경한다.
+- `changePassword()` -> 비밀번호를 변경한다.
 #### 규칙
 - 회원 생성 후 상태는 가입 대기
 - 일정 조건을 만족하면, 가입 완료가 된다.
 - 가입 대기 상태(PENDING)에서만 가입 완료가 될 수 있다.
 - 가입 완료 상태에서는 탈퇴할 수 있다.
+- 회원의 비밀번호는 해시를 만들어서 저장한다
 #### 회원 상태( Member Status )
 _Enum_
 ##### 상수
 - `PENDING`: 가입 대기
 - `ACTIVE`: 활성 상태( 가입 완료 )
 - `DEACTIVATE`: 비활성 상태( 탈퇴, 논리적 삭제 )
+
+### 비밀번호 인코더 ( PasswordEncoder )
+_Domain Service_
+#### 행위
+- `encode()` -> 비밀번호 암호화
+- `matches()` -> 일치 여부 확인
