@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.april2nd.hexagonalwithdomainmodel.domain.MemberFixture.createPasswordEncoder;
+import static com.april2nd.hexagonalwithdomainmodel.domain.MemberFixture.createMemberRegisterRequest;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,18 +15,8 @@ class MemberTest {
 
     @BeforeEach
     void setUp() {
-        this.passwordEncoder = new PasswordEncoder() {
-            @Override
-            public String encode(String password) {
-                return password.toUpperCase();
-            }
-
-            @Override
-            public boolean matches(String password, String passwordHash) {
-                return encode(password).equals(passwordHash);
-            }
-        };
-        this.member = Member.register(new MemberRegisterRequest("test@test.com", "april2nd", "secret"), passwordEncoder);
+        this.passwordEncoder = createPasswordEncoder();
+        this.member = Member.register(createMemberRegisterRequest("test@test.com"), passwordEncoder);
     }
 
     @Test
@@ -36,7 +28,7 @@ class MemberTest {
     @Test
     @DisplayName("생성자 호출 시, 필드에 Null이 들어오면 exception이 발생한다.")
     void constructorNullCheck() {
-        var createRequest = new MemberRegisterRequest(null, "april2nd", "secret");
+        var createRequest = createMemberRegisterRequest(null);
         assertThatThrownBy(() -> Member.register(createRequest, passwordEncoder))
                 .isInstanceOf(NullPointerException.class);
     }
@@ -118,12 +110,12 @@ class MemberTest {
 
     @Test
     void invalidEmail() {
-        var createRequest = new MemberRegisterRequest("inval!d", "april2nd", "secret");
+        var createRequest = createMemberRegisterRequest("inval!d");
 
         assertThatThrownBy(() ->
                 Member.register(createRequest, passwordEncoder)
         ).isInstanceOf(IllegalArgumentException.class);
 
-        Member.register(new MemberRegisterRequest("test@test.com", "april2nd", "secret"), passwordEncoder);
+        Member.register(createMemberRegisterRequest("test@test.com"), passwordEncoder);
     }
 }
