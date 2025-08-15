@@ -24,20 +24,20 @@ class MemberTest {
                 return encode(password).equals(passwordHash);
             }
         };
-        this.member = Member.create(new MemberCreateRequest("test@test.com", "april2nd", "secret"), passwordEncoder);
+        this.member = Member.register(new MemberRegisterRequest("test@test.com", "april2nd", "secret"), passwordEncoder);
     }
 
     @Test
     @DisplayName("사용자가 새로 생성될 때, PENDING 상태로 생성된다.")
-    void createMember() {
+    void registerMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
     }
 
     @Test
     @DisplayName("생성자 호출 시, 필드에 Null이 들어오면 exception이 발생한다.")
     void constructorNullCheck() {
-        var createRequest = new MemberCreateRequest(null, "april2nd", "secret");
-        assertThatThrownBy(() -> Member.create(createRequest, passwordEncoder))
+        var createRequest = new MemberRegisterRequest(null, "april2nd", "secret");
+        assertThatThrownBy(() -> Member.register(createRequest, passwordEncoder))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -118,12 +118,12 @@ class MemberTest {
 
     @Test
     void invalidEmail() {
-        var createRequest = new MemberCreateRequest(null, "april2nd", "secret");
+        var createRequest = new MemberRegisterRequest("inval!d", "april2nd", "secret");
 
         assertThatThrownBy(() ->
-                Member.create(createRequest, passwordEncoder)
+                Member.register(createRequest, passwordEncoder)
         ).isInstanceOf(IllegalArgumentException.class);
 
-        Member.create(new MemberCreateRequest("test@test.com", "april2nd", "secret"), passwordEncoder);
+        Member.register(new MemberRegisterRequest("test@test.com", "april2nd", "secret"), passwordEncoder);
     }
 }
