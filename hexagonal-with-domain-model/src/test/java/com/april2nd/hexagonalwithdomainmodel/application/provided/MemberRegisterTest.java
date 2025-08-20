@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Transactional
 @Import(HexagonTestConfiguration.class)
 //@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL) -> junit-platform.properties로 대체
-public record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
+record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
     @Test
     void register() {
         Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
@@ -27,7 +27,7 @@ public record MemberRegisterTest(MemberRegister memberRegister, EntityManager en
 
     @Test
     void duplicateEmailFail() {
-        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        memberRegister.register(MemberFixture.createMemberRegisterRequest());
 
         assertThatThrownBy(() ->
                 memberRegister.register(MemberFixture.createMemberRegisterRequest())
@@ -48,12 +48,12 @@ public record MemberRegisterTest(MemberRegister memberRegister, EntityManager en
 
     @Test
     void memberRegisterRequestFail() {
-        extracted(new MemberRegisterRequest("test@test.com", "april2nd", "secret"));
-        extracted(new MemberRegisterRequest("test@test.com", "april2ndapril2ndapril2ndapril2ndapril2nd", "long-secret"));
-        extracted(new MemberRegisterRequest("invali!demail", "april2nd", "long-secret"));
+        checkValidation(new MemberRegisterRequest("test@test.com", "april2nd", "secret"));
+        checkValidation(new MemberRegisterRequest("test@test.com", "april2ndapril2ndapril2ndapril2ndapril2nd", "long-secret"));
+        checkValidation(new MemberRegisterRequest("invali!demail", "april2nd", "long-secret"));
     }
 
-    private void extracted(MemberRegisterRequest invalid) {
+    private void checkValidation(MemberRegisterRequest invalid) {
         assertThatThrownBy(() ->
             memberRegister.register(invalid)
         ).isInstanceOf(ConstraintViolationException.class);

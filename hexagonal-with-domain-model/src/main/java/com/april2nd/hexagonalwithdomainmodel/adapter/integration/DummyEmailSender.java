@@ -2,9 +2,11 @@ package com.april2nd.hexagonalwithdomainmodel.adapter.integration;
 
 import com.april2nd.hexagonalwithdomainmodel.application.required.EmailSender;
 import com.april2nd.hexagonalwithdomainmodel.domain.Email;
+import org.springframework.context.annotation.Fallback;
 import org.springframework.stereotype.Component;
 
 @Component
+@Fallback
 public class DummyEmailSender implements EmailSender {
     @Override
     public void send(Email email, String subject, String body) {
