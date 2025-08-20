@@ -10,4 +10,6 @@ import jakarta.validation.Valid;
 public interface MemberRegister {
     // REVIEW: 엔티티를 상위계층에 전달하는게 적절한가 ?
     Member register(@Valid MemberRegisterRequest registerRequest);
+
+    Member activate(Long memberId);
 }

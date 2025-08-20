@@ -1,6 +1,6 @@
 package com.april2nd.hexagonalwithdomainmodel.application.provided;
 
-import com.april2nd.hexagonalwithdomainmodel.application.MemberService;
+import com.april2nd.hexagonalwithdomainmodel.application.MemberModifyService;
 import com.april2nd.hexagonalwithdomainmodel.application.required.EmailSender;
 import com.april2nd.hexagonalwithdomainmodel.application.required.MemberRepository;
 import com.april2nd.hexagonalwithdomainmodel.domain.*;
@@ -20,10 +20,11 @@ import static org.mockito.Mockito.verify;
 class MemberRegisterManualTest {
     @Test
     void registerTestWithStub() {
-        MemberRegister register = new MemberService(
+        MemberRegister register = new MemberModifyService(
                 new FakeMemberRepositoryStub(),
                 new EmailSenderStub(),
-                MemberFixture.createPasswordEncoder()
+                MemberFixture.createPasswordEncoder(),
+                new FakeMemberFinderStub()
                 );
 
         Member member = register.register(MemberFixture.createMemberRegisterRequest());
@@ -36,10 +37,11 @@ class MemberRegisterManualTest {
     void registerTestWithMock() {
         EmailSenderMock emailSenderMock = new EmailSenderMock();
 
-        MemberRegister register = new MemberService(
+        MemberRegister register = new MemberModifyService(
                 new FakeMemberRepositoryStub(),
                 emailSenderMock,
-                MemberFixture.createPasswordEncoder()
+                MemberFixture.createPasswordEncoder(),
+                new FakeMemberFinderStub()
         );
 
         Member member = register.register(MemberFixture.createMemberRegisterRequest());
@@ -55,10 +57,11 @@ class MemberRegisterManualTest {
     void registerTestWithMockito() {
         EmailSender emailSenderMock = Mockito.mock(EmailSender.class);
 
-        MemberRegister register = new MemberService(
+        MemberRegister register = new MemberModifyService(
                 new FakeMemberRepositoryStub(),
                 emailSenderMock,
-                MemberFixture.createPasswordEncoder()
+                MemberFixture.createPasswordEncoder(),
+                new FakeMemberFinderStub()
         );
 
         Member member = register.register(MemberFixture.createMemberRegisterRequest());
@@ -67,6 +70,13 @@ class MemberRegisterManualTest {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
 
         verify(emailSenderMock).send(eq(member.getEmail()), any(), any());
+    }
+
+    static class FakeMemberFinderStub implements MemberFinder {
+        @Override
+        public Member find(Long memberId) {
+            return null;
+        }
     }
 
     static class FakeMemberRepositoryStub implements MemberRepository {
@@ -78,6 +88,11 @@ class MemberRegisterManualTest {
 
         @Override
         public Optional<Member> findByEmail(Email email) {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<Member> findById(Long memberId) {
             return Optional.empty();
         }
     }

@@ -2,6 +2,7 @@ package com.april2nd.hexagonalwithdomainmodel.application.provided;
 
 import com.april2nd.hexagonalwithdomainmodel.HexagonTestConfiguration;
 import com.april2nd.hexagonalwithdomainmodel.domain.*;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Transactional
 @Import(HexagonTestConfiguration.class)
 //@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL) -> junit-platform.properties로 대체
-public record MemberRegisterTest(MemberRegister memberRegister) {
+public record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
     @Test
     void register() {
         Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
@@ -31,6 +32,18 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
         assertThatThrownBy(() ->
                 memberRegister.register(MemberFixture.createMemberRegisterRequest())
         ).isInstanceOf(DuplicateEmailException.class);
+    }
+
+    @Test
+    void activate() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+
+        member = memberRegister.activate(member.getId());
+        entityManager.flush();
+
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
     }
 
     @Test
