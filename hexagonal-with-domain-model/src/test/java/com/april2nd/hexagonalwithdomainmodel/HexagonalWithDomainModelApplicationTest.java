@@ -7,11 +7,11 @@ import org.springframework.boot.SpringApplication;
 
 class HexagonalWithDomainModelApplicationTest {
     @Test
-    void main() {
-        MockedStatic<SpringApplication> mocked = Mockito.mockStatic(SpringApplication.class);
+    void run() {
+        try (MockedStatic<SpringApplication> mocked = Mockito.mockStatic(SpringApplication.class)) {
+            HexagonalWithDomainModelApplication.main(new String[0]);
 
-        HexagonalWithDomainModelApplication.main(new String[0]);
-
-        mocked.verify(() -> SpringApplication.run(HexagonalWithDomainModelApplication.class, new String[0]));
+            mocked.verify(() -> SpringApplication.run(HexagonalWithDomainModelApplication.class, new String[0]));
+        }
     }
 }
