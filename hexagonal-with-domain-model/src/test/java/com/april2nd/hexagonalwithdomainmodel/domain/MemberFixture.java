@@ -5,7 +5,7 @@ package com.april2nd.hexagonalwithdomainmodel.domain;
  */
 public class MemberFixture {
     public static MemberRegisterRequest createMemberRegisterRequest(String email) {
-        return new MemberRegisterRequest(email, "april2nd", "secret");
+        return new MemberRegisterRequest(email, "april2nd", "long-secret");
     }
 
     public static MemberRegisterRequest createMemberRegisterRequest() {

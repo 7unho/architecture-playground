@@ -4,10 +4,14 @@ import com.april2nd.hexagonalwithdomainmodel.application.provided.MemberRegister
 import com.april2nd.hexagonalwithdomainmodel.application.required.EmailSender;
 import com.april2nd.hexagonalwithdomainmodel.application.required.MemberRepository;
 import com.april2nd.hexagonalwithdomainmodel.domain.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Transactional
+@Validated
 @RequiredArgsConstructor
 public class MemberService implements MemberRegister {
     private final MemberRepository memberRepository;
