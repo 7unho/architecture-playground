@@ -8,6 +8,7 @@
 ### 회원 ( Member )
 _Entity_
 #### 속성
+- `id`: `Long` 타입의 구분자
 - `email`: [`EMAIL`] 이메일 - ID
 - `nickname`: 닉네임
 - `passwordHash`: 해싱된 비밀번호
@@ -31,6 +32,9 @@ _Enum_
 - `PENDING`: 등록 대기
 - `ACTIVE`: 활성 상태( 등록 완료 )
 - `DEACTIVATE`: 비활성 상태( 탈퇴, 논리적 삭제 )
+
+##### DuplicateEmailException
+_Exception_
 
 ### 이메일 ( Email )
 _Record(VO)_
