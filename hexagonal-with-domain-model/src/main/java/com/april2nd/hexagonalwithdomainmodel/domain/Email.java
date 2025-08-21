@@ -1,10 +1,7 @@
 package com.april2nd.hexagonalwithdomainmodel.domain;
 
-import jakarta.persistence.Embeddable;
-
 import java.util.regex.Pattern;
 
-@Embeddable
 public record Email(String address) {
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{1,253}\\.[A-Za-z]{2,}$");
