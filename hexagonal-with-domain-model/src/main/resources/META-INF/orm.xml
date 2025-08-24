@@ -33,6 +33,8 @@
             </basic>
             <embedded name="email">
             </embedded>
+            <embedded name="profile">
+            </embedded>
         </attributes>
     </entity>
 
@@ -42,6 +44,9 @@
                 <column name="email_address" nullable="false" length="150"/>
             </basic>
         </attributes>
+    </embeddable>
+
+    <embeddable class="com.april2nd.hexagonalwithdomainmodel.domain.member.Profile">
     </embeddable>
 
 </entity-mappings>

@@ -8,7 +8,7 @@ public record Email(String address) {
 
     public Email {
         if (!EMAIL_PATTERN.matcher(address).matches()) {
-            throw new IllegalArgumentException("[Email.constuctor] 이메일 형식이 바르지 않습니다. " + address);
+            throw new IllegalArgumentException("[Email.constructor] 이메일 형식이 바르지 않습니다. " + address);
         }
     }
 }
