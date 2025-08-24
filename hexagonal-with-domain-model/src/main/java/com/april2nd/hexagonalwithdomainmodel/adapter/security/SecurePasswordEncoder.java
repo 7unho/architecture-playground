@@ -1,6 +1,6 @@
 package com.april2nd.hexagonalwithdomainmodel.adapter.security;
 
-import com.april2nd.hexagonalwithdomainmodel.domain.PasswordEncoder;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;

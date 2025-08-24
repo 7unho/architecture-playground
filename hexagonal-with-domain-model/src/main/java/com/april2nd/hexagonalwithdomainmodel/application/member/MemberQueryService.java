@@ -1,8 +1,8 @@
-package com.april2nd.hexagonalwithdomainmodel.application;
+package com.april2nd.hexagonalwithdomainmodel.application.member;
 
-import com.april2nd.hexagonalwithdomainmodel.application.provided.MemberFinder;
-import com.april2nd.hexagonalwithdomainmodel.application.required.MemberRepository;
-import com.april2nd.hexagonalwithdomainmodel.domain.Member;
+import com.april2nd.hexagonalwithdomainmodel.application.member.provided.MemberFinder;
+import com.april2nd.hexagonalwithdomainmodel.application.member.required.MemberRepository;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

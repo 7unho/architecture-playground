@@ -1,4 +1,4 @@
-package com.april2nd.hexagonalwithdomainmodel.domain;
+package com.april2nd.hexagonalwithdomainmodel.domain.member;
 
 public interface PasswordEncoder {
     String encode(String password);

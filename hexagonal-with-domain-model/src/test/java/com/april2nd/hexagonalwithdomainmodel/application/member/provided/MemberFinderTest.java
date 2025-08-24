@@ -1,8 +1,8 @@
-package com.april2nd.hexagonalwithdomainmodel.application.provided;
+package com.april2nd.hexagonalwithdomainmodel.application.member.provided;
 
 import com.april2nd.hexagonalwithdomainmodel.HexagonTestConfiguration;
-import com.april2nd.hexagonalwithdomainmodel.domain.Member;
-import com.april2nd.hexagonalwithdomainmodel.domain.MemberFixture;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;

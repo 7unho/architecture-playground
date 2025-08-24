@@ -1,7 +1,7 @@
-package com.april2nd.hexagonalwithdomainmodel.application.required;
+package com.april2nd.hexagonalwithdomainmodel.application.member.required;
 
-import com.april2nd.hexagonalwithdomainmodel.domain.Email;
-import com.april2nd.hexagonalwithdomainmodel.domain.Member;
+import com.april2nd.hexagonalwithdomainmodel.domain.shared.Email;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;

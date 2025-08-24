@@ -1,6 +1,9 @@
-package com.april2nd.hexagonalwithdomainmodel.domain;
+package com.april2nd.hexagonalwithdomainmodel.domain.member;
 
+import com.april2nd.hexagonalwithdomainmodel.domain.AbstractEntity;
+import com.april2nd.hexagonalwithdomainmodel.domain.shared.Email;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +26,9 @@ public class Member extends AbstractEntity {
     private String passwordHash;
 
     private MemberStatus status;
+
+    @OneToOne
+    private MemberDetail detail;
 
     public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();

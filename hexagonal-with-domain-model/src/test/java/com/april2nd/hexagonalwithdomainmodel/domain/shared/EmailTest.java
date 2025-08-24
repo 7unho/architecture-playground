@@ -1,4 +1,4 @@
-package com.april2nd.hexagonalwithdomainmodel.domain;
+package com.april2nd.hexagonalwithdomainmodel.domain.shared;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.april2nd.hexagonalwithdomainmodel.domain;
+package com.april2nd.hexagonalwithdomainmodel.domain.member;
 
 /**
  * 회원 관련 테스트 객체 생성

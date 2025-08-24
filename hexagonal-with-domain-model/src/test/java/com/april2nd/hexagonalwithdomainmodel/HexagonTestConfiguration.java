@@ -1,8 +1,8 @@
 package com.april2nd.hexagonalwithdomainmodel;
 
-import com.april2nd.hexagonalwithdomainmodel.application.required.EmailSender;
-import com.april2nd.hexagonalwithdomainmodel.domain.MemberFixture;
-import com.april2nd.hexagonalwithdomainmodel.domain.PasswordEncoder;
+import com.april2nd.hexagonalwithdomainmodel.application.member.required.EmailSender;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.PasswordEncoder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 

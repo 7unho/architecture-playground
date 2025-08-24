@@ -1,7 +1,7 @@
-package com.april2nd.hexagonalwithdomainmodel.application.provided;
+package com.april2nd.hexagonalwithdomainmodel.application.member.provided;
 
-import com.april2nd.hexagonalwithdomainmodel.domain.Member;
-import com.april2nd.hexagonalwithdomainmodel.domain.MemberRegisterRequest;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberRegisterRequest;
 import jakarta.validation.Valid;
 
 /**

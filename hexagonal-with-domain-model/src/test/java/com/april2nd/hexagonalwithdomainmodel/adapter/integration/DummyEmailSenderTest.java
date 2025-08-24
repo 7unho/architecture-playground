@@ -1,6 +1,6 @@
 package com.april2nd.hexagonalwithdomainmodel.adapter.integration;
 
-import com.april2nd.hexagonalwithdomainmodel.domain.Email;
+import com.april2nd.hexagonalwithdomainmodel.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.StdIo;
 import org.junitpioneer.jupiter.StdOut;

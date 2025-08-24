@@ -1,14 +1,14 @@
-package com.april2nd.hexagonalwithdomainmodel.application.required;
+package com.april2nd.hexagonalwithdomainmodel.application.member.required;
 
-import com.april2nd.hexagonalwithdomainmodel.domain.Member;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import static com.april2nd.hexagonalwithdomainmodel.domain.MemberFixture.createMemberRegisterRequest;
-import static com.april2nd.hexagonalwithdomainmodel.domain.MemberFixture.createPasswordEncoder;
+import static com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture.createMemberRegisterRequest;
+import static com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture.createPasswordEncoder;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 

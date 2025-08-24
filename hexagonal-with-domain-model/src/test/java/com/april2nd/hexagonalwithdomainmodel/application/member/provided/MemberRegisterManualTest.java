@@ -1,9 +1,12 @@
-package com.april2nd.hexagonalwithdomainmodel.application.provided;
+package com.april2nd.hexagonalwithdomainmodel.application.member.provided;
 
-import com.april2nd.hexagonalwithdomainmodel.application.MemberModifyService;
-import com.april2nd.hexagonalwithdomainmodel.application.required.EmailSender;
-import com.april2nd.hexagonalwithdomainmodel.application.required.MemberRepository;
-import com.april2nd.hexagonalwithdomainmodel.domain.*;
+import com.april2nd.hexagonalwithdomainmodel.application.member.MemberModifyService;
+import com.april2nd.hexagonalwithdomainmodel.application.member.required.EmailSender;
+import com.april2nd.hexagonalwithdomainmodel.application.member.required.MemberRepository;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture;
+import com.april2nd.hexagonalwithdomainmodel.domain.shared.Email;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberStatus;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;

@@ -1,11 +1,11 @@
-package com.april2nd.hexagonalwithdomainmodel.domain;
+package com.april2nd.hexagonalwithdomainmodel.domain.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.april2nd.hexagonalwithdomainmodel.domain.MemberFixture.createPasswordEncoder;
-import static com.april2nd.hexagonalwithdomainmodel.domain.MemberFixture.createMemberRegisterRequest;
+import static com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture.createPasswordEncoder;
+import static com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture.createMemberRegisterRequest;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
