@@ -13,6 +13,7 @@ _Entity_
 - `nickname`: 닉네임
 - `passwordHash`: 해싱된 비밀번호
 - `status`: `MemberStatus` 회원 상태
+- `detail`: `MemberDetail`과 **1:1** 관계
 #### 행위
 - `static register()` -> 회원 생성: email, nickname, password, passwordHash, passwordEncoder
 - `activate()` -> 등록을 완료한다
@@ -26,6 +27,14 @@ _Entity_
 - 등록 대기 상태(PENDING)에서만 등록 완료가 될 수 있다.
 - 등록 완료 상태에서는 탈퇴할 수 있다.
 - 회원의 비밀번호는 해시를 만들어서 저장한다
+
+### 회원 상세( Member Detail )
+- `id`: `Long`
+- `profile`: 프로필 주소
+- `introduction`: 자기 소개
+- `registeredAt`: 등록 일시
+- `activatedAt`: 등록 완료 일시
+- `deactivatedAt`: 탈퇴 일시
 ### 회원 상태( Member Status )
 _Enum_
 ##### 상수
