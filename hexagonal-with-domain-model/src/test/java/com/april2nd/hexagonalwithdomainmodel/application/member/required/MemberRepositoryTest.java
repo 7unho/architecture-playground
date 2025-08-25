@@ -1,6 +1,7 @@
 package com.april2nd.hexagonalwithdomainmodel.application.member.required;
 
 import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture;
 import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberStatus;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class MemberRepositoryTest {
 
     @Test
     void createMember() {
-        var member = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
+        var member = Member.register(createMemberRegisterRequest(), createPasswordEncoder(), MemberFixture.createProfileAddressProvider());
 
         assertThat(member.getId()).isNull();
 
@@ -42,10 +43,10 @@ class MemberRepositoryTest {
 
     @Test
     void duplicateEmailFail() {
-        Member member = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
+        Member member = Member.register(createMemberRegisterRequest(), createPasswordEncoder(), MemberFixture.createProfileAddressProvider());
         memberRepository.save(member);
 
-        Member member2 = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
+        Member member2 = Member.register(createMemberRegisterRequest(), createPasswordEncoder(), MemberFixture.createProfileAddressProvider());
         assertThatThrownBy(() -> {
             memberRepository.save(member2);
         }).isInstanceOf(DataIntegrityViolationException.class);

@@ -27,8 +27,9 @@ public class MemberDetail extends AbstractEntity {
 
     private LocalDateTime deactivatedAt;
 
-    static MemberDetail create() {
+    static MemberDetail create(String profileAddress) {
         MemberDetail memberDetail = new MemberDetail();
+        memberDetail.profile = new Profile(profileAddress);
         memberDetail.registeredAt = LocalDateTime.now();
         return memberDetail;
     }

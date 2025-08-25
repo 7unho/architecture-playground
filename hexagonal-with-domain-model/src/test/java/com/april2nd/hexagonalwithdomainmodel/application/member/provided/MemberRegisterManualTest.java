@@ -3,10 +3,11 @@ package com.april2nd.hexagonalwithdomainmodel.application.member.provided;
 import com.april2nd.hexagonalwithdomainmodel.application.member.MemberModifyService;
 import com.april2nd.hexagonalwithdomainmodel.application.member.required.EmailSender;
 import com.april2nd.hexagonalwithdomainmodel.application.member.required.MemberRepository;
-import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture;
-import com.april2nd.hexagonalwithdomainmodel.domain.shared.Email;
 import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture;
 import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberStatus;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.Profile;
+import com.april2nd.hexagonalwithdomainmodel.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -25,10 +26,11 @@ class MemberRegisterManualTest {
     void registerTestWithStub() {
         MemberRegister register = new MemberModifyService(
                 new FakeMemberRepositoryStub(),
+                new FakeMemberFinderStub(),
                 new EmailSenderStub(),
                 MemberFixture.createPasswordEncoder(),
-                new FakeMemberFinderStub()
-                );
+                () -> "welcome"
+        );
 
         Member member = register.register(MemberFixture.createMemberRegisterRequest());
 
@@ -42,9 +44,10 @@ class MemberRegisterManualTest {
 
         MemberRegister register = new MemberModifyService(
                 new FakeMemberRepositoryStub(),
+                new FakeMemberFinderStub(),
                 emailSenderMock,
                 MemberFixture.createPasswordEncoder(),
-                new FakeMemberFinderStub()
+                () -> "welcome"
         );
 
         Member member = register.register(MemberFixture.createMemberRegisterRequest());
@@ -62,9 +65,10 @@ class MemberRegisterManualTest {
 
         MemberRegister register = new MemberModifyService(
                 new FakeMemberRepositoryStub(),
+                new FakeMemberFinderStub(),
                 emailSenderMock,
                 MemberFixture.createPasswordEncoder(),
-                new FakeMemberFinderStub()
+                () -> "welcome"
         );
 
         Member member = register.register(MemberFixture.createMemberRegisterRequest());
@@ -98,6 +102,9 @@ class MemberRegisterManualTest {
         public Optional<Member> findById(Long memberId) {
             return Optional.empty();
         }
+
+        @Override
+        public Optional<Member> findByProfile(Profile profile) { return Optional.empty(); }
     }
 
     static class EmailSenderStub implements EmailSender {

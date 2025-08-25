@@ -4,19 +4,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture.createPasswordEncoder;
-import static com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture.createMemberRegisterRequest;
+import static com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MemberTest {
     Member member;
     PasswordEncoder passwordEncoder;
+    ProfileAddressGenerator profileAddressGenerator;
 
     @BeforeEach
     void setUp() {
         this.passwordEncoder = createPasswordEncoder();
-        this.member = Member.register(createMemberRegisterRequest("test@test.com"), passwordEncoder);
+        this.profileAddressGenerator = createProfileAddressProvider();
+        this.member = Member.register(createMemberRegisterRequest("test@test.com"), passwordEncoder, profileAddressGenerator);
     }
 
     @Test
@@ -24,13 +25,14 @@ class MemberTest {
     void registerMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
         assertThat(member.getDetail().getRegisteredAt()).isNotNull();
+        assertThat(member.getDetail().getProfile()).isNotNull();
     }
 
     @Test
     @DisplayName("생성자 호출 시, 필드에 Null이 들어오면 exception이 발생한다.")
     void constructorNullCheck() {
         var createRequest = createMemberRegisterRequest(null);
-        assertThatThrownBy(() -> Member.register(createRequest, passwordEncoder))
+        assertThatThrownBy(() -> Member.register(createRequest, passwordEncoder, profileAddressGenerator))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -86,16 +88,6 @@ class MemberTest {
     }
 
     @Test
-    void changeNickname() {
-        assertThat(member.getNickname()).isEqualTo("april2nd");
-
-        String newNickname = "updated";
-        member.changeNickname(newNickname);
-
-        assertThat(member.getNickname()).isEqualTo(newNickname);
-    }
-
-    @Test
     void changePassword() {
         member.changePassword("verySecret", passwordEncoder);
 
@@ -118,10 +110,10 @@ class MemberTest {
         var createRequest = createMemberRegisterRequest("inval!d");
 
         assertThatThrownBy(() ->
-                Member.register(createRequest, passwordEncoder)
+                Member.register(createRequest, passwordEncoder, profileAddressGenerator)
         ).isInstanceOf(IllegalArgumentException.class);
 
-        Member.register(createMemberRegisterRequest("test@test.com"), passwordEncoder);
+        Member.register(createMemberRegisterRequest("test@test.com"), passwordEncoder, profileAddressGenerator);
     }
 
     @Test
@@ -134,5 +126,12 @@ class MemberTest {
         assertThat(member.getNickname()).isEqualTo(updateRequest.nickname());
         assertThat(member.getDetail().getProfile().address()).isEqualTo(updateRequest.profileAddress());
         assertThat(member.getDetail().getIntroduction()).isEqualTo(updateRequest.introduction());
+    }
+
+    @Test
+    void updateInfoFail() {
+        assertThatThrownBy(() ->
+                member.updateInfo(new MemberInfoUpdateRequest("april2nd", "april2nd", "자기소개"))
+        ).isInstanceOf(IllegalStateException.class);
     }
 }
