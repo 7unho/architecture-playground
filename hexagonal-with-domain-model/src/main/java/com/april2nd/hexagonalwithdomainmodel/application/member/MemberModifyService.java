@@ -4,11 +4,8 @@ import com.april2nd.hexagonalwithdomainmodel.application.member.provided.MemberF
 import com.april2nd.hexagonalwithdomainmodel.application.member.provided.MemberRegister;
 import com.april2nd.hexagonalwithdomainmodel.application.member.required.EmailSender;
 import com.april2nd.hexagonalwithdomainmodel.application.member.required.MemberRepository;
-import com.april2nd.hexagonalwithdomainmodel.domain.member.DuplicateEmailException;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.*;
 import com.april2nd.hexagonalwithdomainmodel.domain.shared.Email;
-import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
-import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberRegisterRequest;
-import com.april2nd.hexagonalwithdomainmodel.domain.member.PasswordEncoder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,6 +48,24 @@ public class MemberModifyService implements MemberRegister {
          * - NoSql, RDB 등 다양한 저장기술을 위한 추상화 인터페이스 이므로, Jpa에서도 save를 호출해야 함
          * 2. Spring Data가 제공하는 Domain Event Publication을 사용할 경우, 업데이트 시에도 save를 호출해야 함
          */
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member deactivate(Long memberId) {
+        Member member = memberFinder.find(memberId);
+
+        member.deactivate();
+
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member updateInfo(Long memberId, MemberInfoUpdateRequest memberInfoUpdateRequest) {
+        Member member = memberFinder.find(memberId);
+
+        member.updateInfo(memberInfoUpdateRequest);
+
         return memberRepository.save(member);
     }
 

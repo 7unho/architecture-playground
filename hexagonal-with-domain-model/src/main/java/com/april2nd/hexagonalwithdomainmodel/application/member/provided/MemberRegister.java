@@ -1,6 +1,7 @@
 package com.april2nd.hexagonalwithdomainmodel.application.member.provided;
 
 import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberInfoUpdateRequest;
 import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberRegisterRequest;
 import jakarta.validation.Valid;
 
@@ -12,4 +13,8 @@ public interface MemberRegister {
     Member register(@Valid MemberRegisterRequest registerRequest);
 
     Member activate(Long memberId);
+
+    Member deactivate(Long memberId);
+
+    Member updateInfo(Long memberId, @Valid MemberInfoUpdateRequest memberInfoUpdateRequest);
 }
