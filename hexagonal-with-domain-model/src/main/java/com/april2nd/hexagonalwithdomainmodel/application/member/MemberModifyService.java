@@ -17,15 +17,16 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 public class MemberModifyService implements MemberRegister {
     private final MemberRepository memberRepository;
+    private final MemberFinder memberFinder;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
-    private final MemberFinder memberFinder;
+    private final ProfileAddressGenerator profileAddressGenerator;
 
     @Override
     public Member register(MemberRegisterRequest registerRequest) {
         checkDuplicateEmail(registerRequest);
 
-        Member member = Member.register(registerRequest, passwordEncoder);
+        Member member = Member.register(registerRequest, passwordEncoder, profileAddressGenerator);
 
         memberRepository.save(member);
 
@@ -64,9 +65,20 @@ public class MemberModifyService implements MemberRegister {
     public Member updateInfo(Long memberId, MemberInfoUpdateRequest memberInfoUpdateRequest) {
         Member member = memberFinder.find(memberId);
 
+        checkDuplicateProfile(member, memberInfoUpdateRequest.profileAddress());
+
         member.updateInfo(memberInfoUpdateRequest);
 
         return memberRepository.save(member);
+    }
+
+    private void checkDuplicateProfile(Member member, String profileAddress) {
+        if (profileAddress.isEmpty()) return;
+        if (member.getDetail().getProfile().address().equals(profileAddress)) return;
+
+        if (memberRepository.findByProfile((new Profile(profileAddress))).isPresent()) {
+            throw new DuplicateProfileException("[MemberModifyService.checkDuplicateProfile] 이미 존재하는 프로필 주소입니다. ");
+        }
     }
 
     private void sendWelcomeEmail(Member member) {

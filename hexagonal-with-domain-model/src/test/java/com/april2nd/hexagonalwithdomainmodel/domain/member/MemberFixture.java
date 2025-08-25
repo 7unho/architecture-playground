@@ -25,4 +25,8 @@ public class MemberFixture {
             }
         };
     }
+
+    public static ProfileAddressGenerator createProfileAddressProvider() {
+        return () -> "welcome";
+    }
 }

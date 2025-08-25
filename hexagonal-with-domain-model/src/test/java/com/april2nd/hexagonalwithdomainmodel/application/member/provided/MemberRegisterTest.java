@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -24,6 +23,7 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
 
         assertThat(member.getId()).isNotNull();
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(member.getDetail().getProfile()).isNotNull();
     }
 
     @Test
@@ -73,8 +73,32 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
         assertThat(member.getDetail().getProfile().address()).isEqualTo("april2nd");
     }
 
+    @Test
+    void updateInfoFail() {
+        Member member = registerMember();
+        memberRegister.activate(member.getId());
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("april2nd", "april2nd", "자기소개"));
+
+        Member member2 = registerMember("member2@test.com");
+        memberRegister.activate(member2.getId());
+
+        entityManager.flush();
+        entityManager.clear();
+
+        assertThatThrownBy(() ->
+                memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("april2nd", "april2nd", "자기소개"))
+        ).isInstanceOf(DuplicateProfileException.class);
+    }
+
     private Member registerMember() {
         Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+        return member;
+    }
+
+    private Member registerMember(String email) {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest(email));
         entityManager.flush();
         entityManager.clear();
         return member;
@@ -89,7 +113,7 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
 
     private void checkValidation(MemberRegisterRequest invalid) {
         assertThatThrownBy(() ->
-            memberRegister.register(invalid)
+                memberRegister.register(invalid)
         ).isInstanceOf(ConstraintViolationException.class);
     }
 }

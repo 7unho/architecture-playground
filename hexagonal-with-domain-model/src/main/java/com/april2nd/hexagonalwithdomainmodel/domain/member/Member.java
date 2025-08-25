@@ -30,14 +30,14 @@ public class Member extends AbstractEntity {
 
     private MemberDetail detail;
 
-    public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder) {
+    public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder, ProfileAddressGenerator profileAddressGenerator) {
         Member member = new Member();
 
         member.email = new Email(createRequest.email());
         member.nickname = requireNonNull(createRequest.nickname());
         member.passwordHash = requireNonNull(passwordEncoder.encode(createRequest.password()));
         member.status = MemberStatus.PENDING;
-        member.detail = MemberDetail.create();
+        member.detail = MemberDetail.create(profileAddressGenerator.generate());
 
         return member;
     }
@@ -63,11 +63,9 @@ public class Member extends AbstractEntity {
         return passwordEncoder.matches(password, this.passwordHash);
     }
 
-    public void changeNickname(String nickname) {
-        this.nickname = requireNonNull(nickname);
-    }
-
     public void updateInfo(MemberInfoUpdateRequest updateRequest) {
+        state(this.isActive(), "[Member.updateInfo] 등록 완료 상태가 아니면 정보를 수정할 수 없습니다.");
+
         this.nickname = Objects.requireNonNull(updateRequest.nickname());
         this.detail.updateInfo(updateRequest);
     }
