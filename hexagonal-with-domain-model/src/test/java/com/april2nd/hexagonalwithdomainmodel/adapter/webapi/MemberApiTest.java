@@ -1,33 +1,57 @@
 package com.april2nd.hexagonalwithdomainmodel.adapter.webapi;
 
 import com.april2nd.hexagonalwithdomainmodel.adapter.webapi.dto.MemberRegisterResponse;
+import com.april2nd.hexagonalwithdomainmodel.application.member.required.MemberRepository;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.Member;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberFixture;
 import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberRegisterRequest;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberStatus;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.client.RestClient;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.springframework.test.web.servlet.assertj.MvcTestResult;
 
+import java.io.UnsupportedEncodingException;
+
+import static com.april2nd.hexagonalwithdomainmodel.domain.AssertThatUtils.equalsTo;
+import static com.april2nd.hexagonalwithdomainmodel.domain.AssertThatUtils.notNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
+@RequiredArgsConstructor
 class MemberApiTest {
-    RestClient restClient = RestClient.create("http://localhost:8080");
+    final MockMvcTester mockMvcTester;
+    final ObjectMapper objectMapper;
+    final MemberRepository memberRepository;
 
     @Test
-    void register() {
-        MemberRegisterRequest request = new MemberRegisterRequest(
-                "april2nd@test.com",
-                "april2nd",
-                "long-secret"
-        );
+    void register() throws JsonProcessingException, UnsupportedEncodingException {
+        MemberRegisterRequest request = MemberFixture.createMemberRegisterRequest();
+        String requestJson = objectMapper.writeValueAsString(request);
 
-        MemberRegisterResponse response = register(request);
+        MvcTestResult result = mockMvcTester.post().uri("/api/v1/members").contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson).exchange();
 
-        assertThat(response.emailAddress()).isEqualTo("april2nd@test.com");
-    }
+        assertThat(result)
+                .hasStatusOk()
+                .bodyJson()
+                .hasPathSatisfying("$.memberId", notNull())
+                .hasPathSatisfying("$.email", equalsTo(request));
 
-    private MemberRegisterResponse register(MemberRegisterRequest request) {
-        return restClient.post()
-                .uri("/api/v1/members")
-                .body(request)
-                .retrieve()
-                .body(MemberRegisterResponse.class);
+        MemberRegisterResponse response = objectMapper.readValue(result.getResponse().getContentAsString(), MemberRegisterResponse.class);
+
+        Member member = memberRepository.findById(response.memberId()).orElseThrow();
+        assertThat(member.getId()).isNotNull();
+        assertThat(member.getEmail().address()).isEqualTo(request.email());
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(member.getDetail().getRegisteredAt()).isNotNull();
     }
 }

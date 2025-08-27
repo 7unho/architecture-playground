@@ -33,7 +33,7 @@ class MemberTest {
     void constructorNullCheck() {
         var createRequest = createMemberRegisterRequest(null);
         assertThatThrownBy(() -> Member.register(createRequest, passwordEncoder, profileAddressGenerator))
-                .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
