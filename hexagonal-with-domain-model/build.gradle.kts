@@ -26,18 +26,35 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-web")
+    // --- Application / Spring Core ---
     implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // --- Web Layer ---
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // --- Security Layer ---
     implementation("org.springframework.security:spring-security-core")
+
+    // --- Data / Persistence ---
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // --- Database Drivers (Runtime Only) ---
+    runtimeOnly("com.h2database:h2")
+    runtimeOnly("com.mysql:mysql-connector-j")
+
+    // --- Dev Tools ---
+    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+
+    // --- Lombok (Build-time Only) ---
     compileOnly("org.projectlombok:lombok")
-	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
-	runtimeOnly("com.h2database:h2")
-	runtimeOnly("com.mysql:mysql-connector-j")
-	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    annotationProcessor("org.projectlombok:lombok")
+    testCompileOnly("org.projectlombok:lombok")
+    testAnnotationProcessor("org.projectlombok:lombok")
+
+    // --- Testing ---
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {
