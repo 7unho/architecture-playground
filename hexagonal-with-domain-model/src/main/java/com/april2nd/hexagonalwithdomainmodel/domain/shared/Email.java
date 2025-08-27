@@ -7,7 +7,7 @@ public record Email(String address) {
             Pattern.compile("^[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{1,253}\\.[A-Za-z]{2,}$");
 
     public Email {
-        if (!EMAIL_PATTERN.matcher(address).matches()) {
+        if (address == null || (!address.isEmpty() && !EMAIL_PATTERN.matcher(address).matches())) {
             throw new IllegalArgumentException("[Email.constructor] 이메일 형식이 바르지 않습니다. " + address);
         }
     }
