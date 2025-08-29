@@ -1,6 +1,7 @@
 package com.april2nd.hexagonalwithdomainmodel.application.member.provided;
 
 import com.april2nd.hexagonalwithdomainmodel.HexagonTestConfiguration;
+import com.april2nd.hexagonalwithdomainmodel.domain.member.MemberRegisterRequest;
 import com.april2nd.hexagonalwithdomainmodel.domain.member.*;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;

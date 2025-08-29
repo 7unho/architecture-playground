@@ -30,7 +30,7 @@ record MemberFinderTest(MemberFinder memberFinder, MemberRegister memberRegister
     @Test
     void findFail() {
         assertThatThrownBy(() -> {
-            memberFinder.find(970402L);
+            var ignored = memberFinder.find(970402L);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 }
